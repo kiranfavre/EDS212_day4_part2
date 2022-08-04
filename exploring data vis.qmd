@@ -1,0 +1,99 @@
+---
+title: "Day 4 Part 2 Exploring Data"
+author: "Kiran Favre"
+format: html
+editor: visual
+---
+
+## Remember: if you want to know more about a function or anything, use '?\_\_\_\_' in the console
+
+```{r}
+#| warning: false
+#| echo: false
+
+# ^ code chunk headers 
+#if you don't want to include these packages in the rendered doc, you can adjust by using code chunk options
+
+library(tidyverse)
+library(palmerpenguins)
+library(GGally)  #had to install
+library(skimr)  #had to install
+
+```
+
+## Exploratory data visualization
+
+Check out your data a bit (not included in rendered because we chose to not using a code chunk operator):
+
+```{r}
+#| include: false
+
+
+#tell me the column names 
+names(penguins)
+
+
+# What are the dimensions
+dim(penguins)
+
+# Can you show me the first 6 lines?
+head(penguins)
+
+#Last 6?
+tail(penguins)
+```
+
+```{r}
+
+#| echo: false
+#only shows code, not output
+
+2+10
+
+```
+
+```{r}
+skim(penguins)  #using skimr package
+```
+
+```{r}
+#| include: false
+
+#u can explicitly name package used by naming package :: function
+GGally::ggpairs(penguins)
+```
+
+## Jitter plot
+
+Flipper length by species
+
+```{r}
+#| fig.cap = "My awesome figure caption"
+
+ggplot(data = penguins, aes(x = species, y = flipper_length_mm)) + 
+  geom_jitter(width = 0.2,
+              alpha = 0.5,
+              aes(color = species)) +
+  geom_boxplot(fill = NA) +
+              theme_classic() +
+              scale_color_manual(values = c("darkorchid4", "cyan4", "goldenrod")) +
+              labs( x = "Penguin Species ",
+                    y = "Flipper length (mm)",
+                    )
+```
+
+-   width changes distance of dots from eachother
+
+-   alpha changes opacity
+
+## Histograms
+
+```{r}
+ggplot(data = penguins, aes(x = bill_length_mm)) +
+  geom_histogram(aes(fill = species), color = "magenta") +
+  facet_wrap(~species, ncol= 1)
+```
+
+-   Fills of areas or polygons are done using fill function
+
+-   points or lines color changes can be done within aes
